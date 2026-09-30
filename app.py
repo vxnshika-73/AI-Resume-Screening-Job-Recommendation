@@ -4,6 +4,7 @@ import pdfplumber
 import joblib
 import re
 import html
+from pathlib import Path
 
 # --------------------------------------------------
 # PAGE CONFIGURATION
@@ -93,33 +94,6 @@ footer {
     font-weight: 800;
     color: #111827;
     margin: 28px 0 14px 0;
-}
-
-/* Upload card */
-.upload-card {
-    background: white;
-    padding: 28px;
-    border-radius: 20px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 10px 30px rgba(15,23,42,0.07);
-    margin-bottom: 24px;
-}
-
-.upload-icon {
-    font-size: 36px;
-    margin-bottom: 8px;
-}
-
-.upload-title {
-    font-size: 20px;
-    font-weight: 750;
-    color: #111827;
-}
-
-.upload-text {
-    color: #6b7280;
-    font-size: 14px;
-    margin-bottom: 15px;
 }
 
 /* Result cards */
@@ -243,9 +217,18 @@ footer {
 # LOAD TRAINED ML COMPONENTS
 # --------------------------------------------------
 
-model = joblib.load("models/best_model.pkl")
-tfidf_vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
-label_encoder = joblib.load("models/label_encoder.pkl")
+@st.cache_resource
+def load_models():
+    base_dir = Path(__file__).resolve().parent
+
+    model = joblib.load(base_dir / "models" / "best_model.pkl")
+    tfidf_vectorizer = joblib.load(base_dir / "models" / "tfidf_vectorizer.pkl")
+    label_encoder = joblib.load(base_dir / "models" / "label_encoder.pkl")
+
+    return model, tfidf_vectorizer, label_encoder
+
+
+model, tfidf_vectorizer, label_encoder = load_models()
 
 
 # --------------------------------------------------
@@ -470,34 +453,23 @@ st.markdown(
 
 with st.container(border=True):
 
-    st.markdown(
-        """<div style="text-align:center; padding:20px 10px 10px 10px;">
-        <div style="font-size:52px;">📄</div>
-        
-        <h2 style="margin:10px 0 8px 0; color:#111827;">
-        Upload Your Resume
-        </h2>
-        
-        <p style="color:#6b7280; font-size:15px;">
-        Upload your PDF resume and let AI analyze your skills,
-        career role, and skill gaps.
-        </p>
-        
-        <p style="color:#9ca3af; font-size:13px;">
-        Supported format: PDF • Maximum size: 200 MB
-        </p>
-        </div>""",
-                unsafe_allow_html=True
-            )
+    upload_col1, upload_col2 = st.columns([1.35, 2.65], gap="large")
 
-    uploaded_resume = st.file_uploader(
-        "Choose your resume",
-        type=["pdf"],
-        label_visibility="collapsed"
-    )
+    with upload_col1:
+        st.markdown("### 📄 Upload Your Resume")
+        st.write(
+            "Upload your PDF resume and let the AI analyze "
+            "your skills, career role, and skill gaps."
+        )
+        st.caption("PDF format • Maximum 200 MB per file")
 
-
-
+    with upload_col2:
+        st.markdown("#### Choose your resume")
+        uploaded_resume = st.file_uploader(
+            "Upload a PDF resume",
+            type=["pdf"],
+            label_visibility="collapsed"
+        )
 
 # --------------------------------------------------
 # PROCESS RESUME
