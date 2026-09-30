@@ -471,26 +471,24 @@ st.markdown(
 with st.container(border=True):
 
     st.markdown(
-        """
-        <div style="text-align:center; padding:20px 10px 10px 10px;">
-            <div style="font-size:52px;">📄</div>
-
-            <h2 style="margin:10px 0 8px 0; color:#111827;">
-                Upload Your Resume
-            </h2>
-
-            <p style="color:#6b7280; font-size:15px;">
-                Upload your PDF resume and let AI analyze your
-                skills, career role, and skill gaps.
-            </p>
-
-            <p style="color:#9ca3af; font-size:13px;">
-                Supported format: PDF &nbsp;•&nbsp; Maximum size: 200 MB
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        """<div style="text-align:center; padding:20px 10px 10px 10px;">
+        <div style="font-size:52px;">📄</div>
+        
+        <h2 style="margin:10px 0 8px 0; color:#111827;">
+        Upload Your Resume
+        </h2>
+        
+        <p style="color:#6b7280; font-size:15px;">
+        Upload your PDF resume and let AI analyze your skills,
+        career role, and skill gaps.
+        </p>
+        
+        <p style="color:#9ca3af; font-size:13px;">
+        Supported format: PDF • Maximum size: 200 MB
+        </p>
+        </div>""",
+                unsafe_allow_html=True
+            )
 
     uploaded_resume = st.file_uploader(
         "Choose your resume",
