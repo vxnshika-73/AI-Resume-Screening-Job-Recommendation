@@ -1,0 +1,7 @@
+
+streamlit==1.64.0
+pdfplumber
+joblib
+scikit-learn
+pandas
+numpy
