@@ -18,9 +18,9 @@ st.set_page_config(
 # LOAD TRAINED ML COMPONENTS
 # --------------------------------------------------
 
-model = joblib.load("best_model.pkl")
-tfidf_vectorizer = joblib.load("tfidf_vectorizer.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
+model = joblib.load("models/best_model.pkl")
+tfidf_vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
+label_encoder = joblib.load("models/label_encoder.pkl")
 
 
 # --------------------------------------------------
